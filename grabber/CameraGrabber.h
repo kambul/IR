@@ -1,4 +1,4 @@
-#indef CAMERAGRABBER_H
+#ifndef CAMERAGRABBER_H
 #define CAMERAGRABBER_H
 #include "grabber/ICameraGrabberResultCallback.h"
 

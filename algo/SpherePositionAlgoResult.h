@@ -1,5 +1,6 @@
-#indef SPHEREPOSITIONALGORESULT_H
+#ifndef SPHEREPOSITIONALGORESULT_H
 #define SPHEREPOSITIONALGORESULT_H
+#include "algo/SixData.h"
 
 class SpherePositionAlgoResult
 {

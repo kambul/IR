@@ -1,8 +1,9 @@
 #include "SpherePositionAlgo.h"
+#include "algo/ISpherePositionResultCallback.h"
 
-void SpherePositionAlgo::setResultCallback( SpherePositionCallback callback )
+void SpherePositionAlgo::setResultCallback( SpherePositionResultCallback callback )
 {
-   this.callback = callback;
+   this->callback = callback;
 }
 
 
@@ -17,8 +18,8 @@ void SpherePositionAlgo::getFrame( char *frame )
 
    SpherePositionAlgoResult result;
 
-   result.sixData = sixData;
-   result.sucess  = true;
+   result.data = sixData;
+   result.success  = true;
 
-   callback.getResult( result );
+   callback.getResult(result);
 }

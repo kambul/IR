@@ -1,4 +1,4 @@
-
+#include "grabber/CameraGrabber.h"
 
 void CameraGrabber::setResultCallback( ICameraGrabberResultCallback callback )
 {
