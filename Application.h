@@ -1,3 +1,5 @@
+#indef APLICATION_H
+#define APLICATION_H
 
 class Application
 {
@@ -12,4 +14,6 @@ private:
    SpherePositionAlgo *algo;
    FrameGrabber       *grabber;
    ITransmitter       *transmitter;
-}
+};
+
+#endif
