@@ -3,15 +3,18 @@
 
 #include "transmitter/ITransmitter.h"
 
-class BridgeTransmitter : ITransmitter
+
+class BridgeTransmitter :public ITransmitter
 {
 public:
-   void init( string domain, int port );
+   void init(char*  domain, int port );
 
    void getResult( SpherePositionAlgoResult result );
+   void start();
+   void stop();
 
 private:
-   string domain;
+   char* domain;
    int port;
 
 };

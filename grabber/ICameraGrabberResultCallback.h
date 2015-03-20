@@ -5,7 +5,9 @@
 class ICameraGrabberResultCallback
 {
 public:
-   virtual void getFrame( char * );
+   virtual void getFrame ( char *frame );
+private:
+    char* m_frame;
 };
 
 #endif

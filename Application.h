@@ -1,5 +1,8 @@
-#indef APLICATION_H
+#ifndef APLICATION_H
 #define APLICATION_H
+#include "algo/SpherePositionAlgo.h"
+#include "grabber/CameraGrabber.h"
+#include "transmitter/ITransmitter.h"
 
 class Application
 {
@@ -10,9 +13,9 @@ public:
    void start();
    void stop();
 
-private:
+
    SpherePositionAlgo *algo;
-   FrameGrabber       *grabber;
+   CameraGrabber       *grabber;
    ITransmitter       *transmitter;
 };
 

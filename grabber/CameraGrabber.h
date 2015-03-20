@@ -12,6 +12,7 @@ public:
 
 private:
    ICameraGrabberResultCallback callback;
+   char* m_CameraGrabberFrame;
 
 };
 

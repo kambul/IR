@@ -1,8 +1,9 @@
 #ifndef ITRANSMITTER_H
 #define ITRANSMITTER_H
 #include "algo/ISpherePositionResultCallback.h"
-class ITransmitter : SpherePositionResultCallback
+class ITransmitter :public SpherePositionResultCallback
 {
+public:
    virtual void start();
    virtual void stop();
 };

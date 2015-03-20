@@ -1,8 +1,8 @@
-
-void BridgeTransmitter::init( string domain, int port )
+#include "transmitter/BridgeTransmitter.h"
+void BridgeTransmitter::init( char* domain, int port )
 {
-   this.domain = domain;
-   this.port   = port;
+   this->domain = domain;
+   this->port   = port;
 }
 
 void BridgeTransmitter::start()
