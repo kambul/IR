@@ -2,20 +2,24 @@
 #define BRIDGETRANSMISTER_H
 
 #include "transmitter/ITransmitter.h"
+#include "TCP_client.h"
+#include "string.h"
 
 
-class BridgeTransmitter :public ITransmitter
+
+
+class BridgeTransmitter : public ITransmitter
 {
 public:
-   void init(char*  domain, int port );
-
+   void init(string  domain, int port );
    void getResult( SpherePositionAlgoResult result );
-   void start();
-   void stop();
+   virtual void start();
+   virtual void stop();
 
 private:
-   char* domain;
+   string domain;
    int port;
+   TCP_client c;
 
 };
 

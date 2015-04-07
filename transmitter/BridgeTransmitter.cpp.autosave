@@ -8,6 +8,7 @@ string r = "{\"header\":{\"destination\" : \"body\",\"expiration\" : \"0\",\"mes
 string l = "{\"header\":{\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"15\",\"timestamp\" : \"1428419652361\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"vs\":[5,-5]}}";
 //string r = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"10\",\"timestamp\" : \"0\",\"correlationID\" : \"\",\"bodyType\" : \"map\"}, \"properties\": [],\"body\":{\"vs\":[10, -10]}}";
 //string l = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"10\",\"timestamp\" : \"0\",\"correlationID\" : \"\",\"bodyType\" : \"map\"}, \"properties\": [],\"body\":{\"vs\":[10, -10]}}";
+string razl ="{\"header\":{\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"34\",\"timestamp\" : \"1428424966693\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"neck_state\":1}}";
 
 char *data_c = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"28\",\"timestamp\" : \"0\",\"correlationID\" : \"\",\"bodyType\" : \"map\"}, \"properties\": [],\"body\":{\"vs\":[-10, 10]}}";
 

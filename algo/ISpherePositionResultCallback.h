@@ -2,10 +2,10 @@
 #define CDATAANALYSIS_H
 #include "algo/SpherePositionAlgoResult.h"
 
-class SpherePositionResultCallback
+class ISpherePositionResultCallback
 {
 public:
-   virtual void getResult( SpherePositionAlgoResult result );
+   virtual void getResult( SpherePositionAlgoResult result ) = 0;
 };
 
 #endif

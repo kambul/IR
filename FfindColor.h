@@ -4,20 +4,20 @@
 #include <highgui.h>
 #include <stdlib.h>
 #include <stdio.h>
-
+#include <iostream>
+#include <math.h>
 
 class CFindColor
 {
 public:
-    CFindColor(IplImage *image);
-    void SetImage(IplImage *image);
-    void GetImage();
+    CFindColor();
+    void SetImage(IplImage *img);
+    IplImage*  GetImage();
     void FindColorRangeHSV(int Hmin, int Hmax, int Smin, int Smax, int Vmin, int Vmax);
     ~CFindColor();
 private:
-    IplImage *m_image;
+    IplImage *m_image = 0;
     int Hmin, Hmax, Smin,Smax ,Vmin ,Vmax;   
-    IplImage* frame=0;
     IplImage* h_range = 0;
     IplImage* s_range = 0;
     IplImage* v_range = 0;

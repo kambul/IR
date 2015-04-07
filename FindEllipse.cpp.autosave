@@ -436,9 +436,9 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
             m_sixdata.m_a1 = radius;
             m_sixdata.m_a2 = radius;
             m_sixdata.m_b1 = R;
-            m_sixdata.m_b1 = max_b2;
+            m_sixdata.m_b2 = max_b2;
             m_sixdata.m_angl1 = t_n[1];
-            m_sixdata.m_angl1 = t_n[2];
+            m_sixdata.m_angl2 = t_n[2];
 
 
 

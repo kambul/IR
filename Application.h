@@ -4,6 +4,13 @@
 #include "grabber/CameraGrabber.h"
 #include "transmitter/ITransmitter.h"
 
+#include <cv.h>
+#include <highgui.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <iostream>
+#include <math.h>
+
 class Application
 {
 

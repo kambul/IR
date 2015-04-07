@@ -1,8 +1,14 @@
 #include "findobject.h"
 
+#include <cv.h>
+#include <highgui.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <iostream>
+#include <math.h>
+
 CFindObject::CFindObject()
 {
-
 }
 
 CFindObject::~CFindObject()
@@ -10,25 +16,55 @@ CFindObject::~CFindObject()
 
 }
 
+int CFindObject::GetRadius()
+{
+    return Max_contr[2];
+}
+
+CvPoint CFindObject::GetCenter()
+{
+    CvPoint point;
+    point.x = Max_contr[0];
+    point.y = Max_contr[1];
+
+    return point;
+}
+
 bool CFindObject::FindObject(IplImage *image)
 {
-    int Max_contr[3] = {0,0,0};
-    CvMemStorage* storagec = cvCreateMemStorage(0);
-    CvSeq* contours=0, *seq=0;
+    Max_contr[0] = 0;
+    Max_contr[1] = 0;
+    Max_contr[2] = 0;
+
+    IplImage *temp =  cvCreateImage( cvGetSize(image), IPL_DEPTH_8U, 1 );
+
+    cvCopy(image, temp);
 
             // находим контуры
+
+
+    int radius = 1;
+    IplConvKernel* Kern = cvCreateStructuringElementEx(radius*2+1, radius*2+1, 1, 1, CV_SHAPE_ELLIPSE);
+
+
+
+     cvSmooth(image, image, CV_BLUR_NO_SCALE  , 5, 5);
+     cvDilate(image, image, Kern, 4);
+     //cvShowImage("gray",image);
+
             int contoursCont = cvFindContours( image, storagec, &contours, sizeof(CvContour), CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0));
 
-            //if(!contours){
-              //      printf("[!] Error: cant find contours!\n");
-                //    return -2;
-            //}
+
+            if(!contours){
+                   printf("[!] Error: cant find contours!\n");
+            }
             printf("[i] contours: %d \n", contoursCont);
+
 
             // нарисуем контуры
             for(seq = contours; seq!=0; seq = seq->h_next)
             {
-                   cvDrawContours(image, seq, CV_RGB(255,216,0), CV_RGB(0,0,250), 0, 1, 4); // рисуем контур
+                   cvDrawContours(temp, seq, CV_RGB(255,216,0), CV_RGB(0,0,250), 0, 1, 4); // рисуем контур
 
             }
             //int cluster_count = MAX_CLUSTERS;
@@ -50,7 +86,6 @@ bool CFindObject::FindObject(IplImage *image)
                                     float radius=0;
                                     // определяем окружность заключающую в себе контур
                                     cvMinEnclosingCircle(seq, &center, &radius);
-                                    //std:: cout << " mmmmmm///";
                                     m_center.push_back(center);
                                     m_radis.push_back( radius);
                                     contr_sqr.push_back(0);
@@ -94,18 +129,22 @@ bool CFindObject::FindObject(IplImage *image)
 
                             for(k=0, seq = contours; seq!=0; seq = seq->h_next, k++)
                             {
-                                if ((m_radis[k] > image->height/8) /*&& ( m_radis[k] > Max_contr[2])*/&&( m_radis[k]< image->height/3))
+                                if ((m_radis[k] > image->height/8) && ( m_radis[k] > Max_contr[2])&&( m_radis[k]< image->height/3))
                                 {
 
-                                    if ((contr_sqr[k]/m_radis[k]/m_radis[k] / 3.14 >sqr_max)&&(contr_sqr[k]/m_radis[k]/m_radis[k] / 3.14 > 0.5 ))
+                                    if ((contr_sqr[k]/m_radis[k]/m_radis[k] / 3.14 >sqr_max)&&(contr_sqr[k]/m_radis[k]/m_radis[k] / 3.14 > 0.69 ))
                                     {
                                         Max_contr[0] = m_center[k].x;
                                         Max_contr[1] = m_center[k].y;
                                         Max_contr[2] = m_radis[k];
-                                        sqr_max =contr_sqr[k]/m_radis[k]/m_radis[k] / 3.14 ; //отношение эксп к теор
-                                        //cvCircle( rgb, cvPointFrom32f(center), radius, CV_RGB(255,255,255));//, CV_FILLED );
+                                        sqr_max = contr_sqr[k]/m_radis[k]/m_radis[k] / 3.14 ; //отношение эксп к теор
+                                       // cvCircle( image, cvPointFrom32f(center), radius, CV_RGB(255,255,255));//, CV_FILLED );
                                     }  // запихиваем в массив
                                 }
+                                cvCircle( temp, cvPoint(Max_contr[0], Max_contr[1]), Max_contr[2], CV_RGB(0,0,255));
+                               // cvDestroyAllWindows();
+
                             }
+                             //cvShowImage("temp",temp);
 
 }

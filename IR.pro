@@ -2,6 +2,7 @@ TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
+CONFIG += rtti
 
 SOURCES += main.cpp \
     FindColor.cpp \
@@ -9,10 +10,13 @@ SOURCES += main.cpp \
     FindEllipse.cpp \
     dataanalysis.cpp \
     algo/SixData.cpp \
-    algo/SpherePositionAlgo.cpp \
     grabber/CameraGrabber.cpp \
     transmitter/BridgeTransmitter.cpp \
-    Application.cpp
+    Application.cpp \
+    algo/spherepositionalgoresult.cpp \
+    algo/spherepositionalgo.cpp \
+    TCP_client.cpp \
+    TCPIP_clieat.cpp
 
 INCLUDEPATH += "/opt/local/include/opencv/"
 INCLUDEPATH += "/opt/local/include/opencv2/"
@@ -59,6 +63,8 @@ HEADERS += \
     grabber/ICameraGrabberResultCallback.h \
     transmitter/BridgeTransmitter.h \
     transmitter/ITransmitter.h \
-    Application.h
+    Application.h \
+    TCP_client.h \
+    TCPIP_clieat.h
 
 
