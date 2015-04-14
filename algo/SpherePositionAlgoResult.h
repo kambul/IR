@@ -12,6 +12,7 @@
 class SpherePositionAlgoResult
 {
 public:
+   void Analysis();
    bool    success;
    SixData data;
 };

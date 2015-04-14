@@ -8,7 +8,8 @@ string r = "{\"header\":{\"destination\" : \"body\",\"expiration\" : \"0\",\"mes
 string l = "{\"header\":{\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"15\",\"timestamp\" : \"1428419652361\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"vs\":[5,-5]}}";
 //string r = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"10\",\"timestamp\" : \"0\",\"correlationID\" : \"\",\"bodyType\" : \"map\"}, \"properties\": [],\"body\":{\"vs\":[10, -10]}}";
 //string l = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"10\",\"timestamp\" : \"0\",\"correlationID\" : \"\",\"bodyType\" : \"map\"}, \"properties\": [],\"body\":{\"vs\":[10, -10]}}";
-
+string razl ="{\"header\":{\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"34\",\"timestamp\" : \"1428424966693\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"neck_state\":1}}";
+string slogit = "{\"header\":{\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"34\",\"timestamp\" : \"1428424966693\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"neck_state\":0}}";
 char *data_c = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"28\",\"timestamp\" : \"0\",\"correlationID\" : \"\",\"bodyType\" : \"map\"}, \"properties\": [],\"body\":{\"vs\":[-10, 10]}}";
 
 using namespace std;
@@ -50,6 +51,15 @@ void BridgeTransmitter::getResult( SpherePositionAlgoResult result )
      if (((result.data.x ) > 380) && (result.data.x !=0))
      {
      c.send_comm(up);
+     }
+     if (((result.data.m_b1 ) > 30) )
+     {
+     c.send_comm(razl);
+     }
+
+     if (((result.data.m_b1 ) < -30) )
+     {
+     c.send_comm(slogit);
      }
 
 

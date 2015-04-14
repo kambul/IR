@@ -8,6 +8,8 @@
 #include <iostream>
 #include <math.h>
 
+
+
 CvCapture* m_cam;
 
 
@@ -78,10 +80,14 @@ void SpherePositionAlgo::setFormat( int width, int height )
     sixData.m_b1 = m_findellipse.m_sixdata.m_b1;
     sixData.m_b2 = m_findellipse.m_sixdata.m_b2;
 
-    std::cout << "b1 " << sixData.m_b1 << " b2 "<< sixData.m_b2 << std::endl;
+
 
     SpherePositionAlgoResult result;
 
+
+
+    result.Analysis();
+     std::cout << "b1 " << sixData.m_b1 << " b2 "<< sixData.m_b2 << std::endl;
     result.data = sixData;
     result.success  = true;
     callback->getResult(result);

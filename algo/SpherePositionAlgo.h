@@ -32,6 +32,7 @@ class SpherePositionAlgo : public ICameraGrabberResultCallback
       CFindColor m_findcolor;
       CFindEllipse m_findellipse;
 
+
       ISpherePositionResultCallback *callback;
 
 

@@ -29,10 +29,7 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
 
     float m_size = 0.8;
 
-    int globalM_x = -1;
-    int globalM_y = -1;
-    int globalM_xx = 0;
-    int globalM_yy = 0;
+
     double b_n[4] = {0,0,0,0};
     double t_n[4] = {0,0,0,0};
 
@@ -48,7 +45,7 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
 
     //ищем по цвету маркер(крест)
 
-    float max = 0;
+
     int Hmin = 0;
     int Hmax = 255;
 
@@ -58,16 +55,15 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
     int Vmin = 60;
     int Vmax = 255;
 
-    int HSVmax = 256;
-
-
-
+//поиск креста по цвету
     CFindColor findcolor;
 
     findcolor.SetImage(image);
+
     findcolor.FindColorRangeHSV( Hmin,  Hmax,  Smin,  Smax,  Vmin,  Vmax);
 
     cvCanny( findcolor.GetImage(), temp, 0, 10, 5 );
+//
 
     int a = 0,b = 0;
     if ( (global_p[2]>0))
@@ -165,34 +161,11 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
 
             for(int x=0; x < bin->width; x++)
             {
-
-                double delta_x = sigma_2;
-                double delta_y = 0;
-                float sigma_xy = sigma_2;
-
-
-                if ((ptrG[x]>0)&&(rand() % 15)==1) //1 из 15
+                if ((ptrG[x]>0)&&(rand() % 10)==1) //1 из 15
 
                 {
                     ptr2[x] = 0xFFFFFFFF;
                     cont++;// это пиксель контура?
-
-                    /* while(1)//включить если надо рассматривать по одной точки
-                    {
-                        if (cvWaitKey(0) == 'e' )
-                        {
-                            cvDestroyAllWindows();
-                            cvShowImage("phase",phase);
-                            cvShowImage("bin2",bin2);
-                            break;
-
-                        }
-
-                    }
-                    */
-
-
-
 
                     // рассмотрим все возможные элипсы, которые могут
                     // проходить через эту точку
@@ -200,22 +173,25 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
                     for(int fi = 0; fi < phase -> height; fi++)
 
                     { //перебираем все возможные t-до радиус вектора
+                         if (cont_fi>180) break;
                         short* ptrP = (short*) (phase->imageData + fi * phase->widthStep);
 
                         for(int b = 0; b < phase->width; b ++)
                         {
 
 
-                            if ((b==(phase->width -1))&&(max_b!=0))
+                            if ((b==(phase->width))&&(max_b!=0))
                             {
                                 ptrP[max_b] ++;
-                                cont_fi ++;
                                 max_b = 0;
 
-                                if (cont_fi>180) break;
                             }
 
-                            for(int t=0 ; t < phase -> height; t=t+4 )
+
+                           // int fi_b = fi+180;
+                            //if (fi_b>360) fi_b=fi-360;
+
+                            for(int t = 0 ; t < 360; t=t+2 )
                                 // for(int  l = 0 ; l < phase -> height/2;l=l+5 )
 
                             {
@@ -240,7 +216,7 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
                                             - global_p[2]*m_sin[fi]*m_cos[t]
                                         - (bin->width/2-y));
 
-                                double sigma_xy =
+                                /*double sigma_xy =
                                         fabs
                                         (
                                             m_sqrt_2*
@@ -251,29 +227,20 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
                                         - (bin->width/2-y) - (bin->width/2-x)
 
                                         );
-
+*/
                                 // Если решение уравнения достаточно хорошее
                                 if (
                                         (sigma_x < sigma)
                                         &&
                                         (sigma_y < sigma)
-                                        )
-                                    /*if (sigma_xy < delta_x)
-                                {
-                                    max_b = b;
-                                    delta_x = sigma_xy;
-                                }
-*/
+                                    )
+
 
                                 {
                                     max_b = b;
-                                    //delta_x = (sigma_x) + (sigma_y) ;
-                                    //if (delta_x < sigma)
+                                    cont_fi ++;
 
                                     break;
-                                    // delta_y =sigma_y- sigma;
-                                    //break;
-
                                 }
 
 
@@ -317,7 +284,7 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
             short* ptrP = (short*) (phase->imageData + a * phase->widthStep);
 
             MaxPhaseValue = 1;
-            for(int b=0; b<phase->width-5; b++)/////исправить 5ку, н число от радиуса
+            for(int b=0; b<phase->width; b++)/////исправить 5ку, н число от радиуса
             { // перебираем все возможные расстояния от начала координат
                 if(ptrP[b]>MaxPhaseValue)
                 {
@@ -365,11 +332,8 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
         for(int a=1; a<phase->height; a++)
         { //перебираем все возможные углы наклона
             short* ptrP = (short*) (phase->imageData + a * phase->widthStep);
-            for(int b=1; b<phase->width-5; b++)/////исправить 5ку, н число от радиуса
-
+            for(int b=1; b<phase->width; b++)/////исправить 5ку, н число от радиуса
             { // перебираем все возможные расстояния от начала координат
-
-
                 if(abs (a - max_a)<2)
                 {
 
