@@ -175,7 +175,7 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
                        //  if (cont_fi>180) break;
                         short* ptrP = (short*) (phase->imageData + fi * phase->widthStep);
                         max_b = 0;
-                        for(int b = 0; b < phase->width; b ++)
+                        for(int b = 0; b < phase->width/2; b ++)
                         {
 
 
@@ -190,7 +190,7 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
                            // int fi_b = fi+180;
                             //if (fi_b>360) fi_b=fi-360;
 
-                            for(int t = 0 ; t < 360; t=t+5 )
+                            for(int t = 0 ; t < phase -> height/2; t=t+5 )
                                 // for(int  l = 0 ; l < phase -> height/2;l=l+5 )
 
                             {
