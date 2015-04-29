@@ -62,11 +62,12 @@ bool CFindObject::FindObject(IplImage *image)
 
 
             // нарисуем контуры
-            for(seq = contours; seq!=0; seq = seq->h_next)
+          /*  for(seq = contours; seq!=0; seq = seq->h_next)
             {
                    cvDrawContours(temp, seq, CV_RGB(255,216,0), CV_RGB(0,0,250), 0, 1, 4); // рисуем контур
 
             }
+            */
             //int cluster_count = MAX_CLUSTERS;
                             int sample_count = contoursCont;
                             //int i, j, k;
@@ -129,7 +130,7 @@ bool CFindObject::FindObject(IplImage *image)
 
                             for(k=0, seq = contours; seq!=0; seq = seq->h_next, k++)
                             {
-                                if ((m_radis[k] > image->height/8) && ( m_radis[k] > Max_contr[2])&&( m_radis[k]< image->height/3))
+                                if ((m_radis[k] > image->height/8) && ( m_radis[k] > Max_contr[2])&&( m_radis[k]< image->height))
                                 {
 
                                     if ((contr_sqr[k]/m_radis[k]/m_radis[k] / 3.14 >sqr_max)&&(contr_sqr[k]/m_radis[k]/m_radis[k] / 3.14 > 0.69 ))
@@ -142,9 +143,9 @@ bool CFindObject::FindObject(IplImage *image)
                                     }  // запихиваем в массив
                                 }
                                 cvCircle( temp, cvPoint(Max_contr[0], Max_contr[1]), Max_contr[2], CV_RGB(0,0,255));
-                               // cvDestroyAllWindows();
+                                cvDestroyAllWindows();
 
                             }
-                             //cvShowImage("temp",temp);
+                             cvShowImage("temp",temp);
 
 }

@@ -66,7 +66,7 @@ void SpherePositionAlgo::setFormat( int width, int height )
 
     m_findobject.FindObject(m_findcolor.GetImage());
 
-    m_findellipse.FindEllipse(m_findobject.GetCenter(),m_findobject.GetRadius(), image);
+   // m_findellipse.FindEllipse(m_findobject.GetCenter(),m_findobject.GetRadius(), image);
 
     std::cout << "R = " << m_findobject.GetRadius() << "x y = "<< m_findobject.GetCenter().x << " " << m_findobject.GetCenter().y
               << std::endl;

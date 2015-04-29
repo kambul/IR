@@ -138,7 +138,6 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
 
 
         double sigma = 2;
-        double sigma_2 = sigma*2;
         ///
         ////// \brief cont
         unsigned int cont = 0;
@@ -154,7 +153,7 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
 
         for(int y = 0; y < bin->height; y ++)
         {
-            if (cont>350) break;
+            if (cont>300) break;
 
             uchar* ptrG = (uchar*) (bin->imageData + y * bin->widthStep);
             uchar* ptr2 = (uchar*) (bin2->imageData + y * bin2->widthStep);
@@ -173,14 +172,14 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
                     for(int fi = 0; fi < phase -> height; fi++)
 
                     { //перебираем все возможные t-до радиус вектора
-                         if (cont_fi>180) break;
+                       //  if (cont_fi>180) break;
                         short* ptrP = (short*) (phase->imageData + fi * phase->widthStep);
-
+                        max_b = 0;
                         for(int b = 0; b < phase->width; b ++)
                         {
 
 
-                            if ((b==(phase->width))&&(max_b!=0))
+                           if ((b==(phase->width))&&(max_b!=0))
                             {
                                 ptrP[max_b] ++;
                                 max_b = 0;
@@ -191,7 +190,7 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
                            // int fi_b = fi+180;
                             //if (fi_b>360) fi_b=fi-360;
 
-                            for(int t = 0 ; t < 360; t=t+2 )
+                            for(int t = 0 ; t < 360; t=t+5 )
                                 // for(int  l = 0 ; l < phase -> height/2;l=l+5 )
 
                             {
@@ -239,7 +238,6 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
                                 {
                                     max_b = b;
                                     cont_fi ++;
-
                                     break;
                                 }
 
@@ -473,7 +471,6 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
         // cvNamedWindow( "phaseImage2", 1 );
          cvDestroyAllWindows();
          cvShowImage( "im", image);
-         cvShowImage("phase",phase);
 
 
 

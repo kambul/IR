@@ -52,7 +52,29 @@ void BridgeTransmitter::getResult( SpherePositionAlgoResult result )
      {
      c.send_comm(up);
      }
-     if (((result.data.m_b1 ) > 30) )
+
+
+     if ( ((result.data.m_angl1 >45 ) && (result.data.m_angl1  <90))|| ((result.data.m_angl1  >225 ) && (result.data.m_angl1  <269)) )
+     {
+         c.send_comm(razl);
+     }
+
+     if ( ((result.data.m_angl1 >45 ) && (result.data.m_angl1  <90))|| ((result.data.m_angl1  >225 ) && (result.data.m_angl1  <269)) )
+     {
+         c.send_comm(razl);
+     }
+
+     if ( (result.data.m_angl1  >0 ) && (result.data.m_angl1  <45) || ((result.data.m_angl1  >135 ) && (result.data.m_angl1  <225)) )
+     {
+       c.send_comm(slogit);
+     }
+     if ( (result.data.m_angl1  >0 ) && (result.data.m_angl1  <45) || ((result.data.m_angl1  >135 ) && (result.data.m_angl1  <225)) )
+     {
+        c.send_comm(slogit);
+     }
+
+
+     /*if (((result.data.m_b1 ) > 30) )
      {
      c.send_comm(razl);
      }
@@ -61,7 +83,7 @@ void BridgeTransmitter::getResult( SpherePositionAlgoResult result )
      {
      c.send_comm(slogit);
      }
-
+*/
 
 }
 
