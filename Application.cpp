@@ -8,7 +8,7 @@ void Application::init()
 {
    string host = "192.168.1.104";
    BridgeTransmitter *bridgeTransmitter = new BridgeTransmitter();
-   bridgeTransmitter->init( host, 6667 );
+   bridgeTransmitter->init( host, 6664 );
 
    this->algo        = new SpherePositionAlgo();
    this->grabber     = new CameraGrabber();

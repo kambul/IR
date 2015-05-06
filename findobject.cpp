@@ -143,9 +143,15 @@ bool CFindObject::FindObject(IplImage *image)
                                     }  // запихиваем в массив
                                 }
                                 cvCircle( temp, cvPoint(Max_contr[0], Max_contr[1]), Max_contr[2], CV_RGB(0,0,255));
-                                cvDestroyAllWindows();
+                               // cvDestroyAllWindows();
 
                             }
-                             cvShowImage("temp",temp);
+                             m_img = cvCreateImage( cvGetSize(temp), IPL_DEPTH_8U, 1 );
+                             //cvShowImage("temp",temp);
 
+}
+
+IplImage *CFindObject::GetImage()
+{
+    return m_img;
 }

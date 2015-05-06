@@ -16,9 +16,11 @@ public:
 
     CvPoint GetCenter();
     int GetRadius();
+    IplImage *GetImage();
 
     ~CFindObject();
 private:
+    IplImage *m_img = 0;
     int m_radius;
     CvPoint m_xyPoint;
     int Max_contr[3] = {0,0,0};

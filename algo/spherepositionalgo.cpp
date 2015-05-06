@@ -28,14 +28,14 @@ void SpherePositionAlgo::setFormat( int width, int height )
 
  void SpherePositionAlgo::getFrame (char *frame)
 {
-     int Hmin = 29;
-     int Hmax = 85;
+     int Hmin = 56;
+     int Hmax = 76;
 
-     int Smin = 96;
-     int Smax = 169;
+     int Smin = 131;
+     int Smax = 223;
 
-     int Vmin = 50;
-     int Vmax = 230;
+     int Vmin = 60;
+     int Vmax = 239;
 
 
     m_cam = cvCreateCameraCapture(0); //cvCaptureFromCAM( 0 );
@@ -66,7 +66,7 @@ void SpherePositionAlgo::setFormat( int width, int height )
 
     m_findobject.FindObject(m_findcolor.GetImage());
 
-   // m_findellipse.FindEllipse(m_findobject.GetCenter(),m_findobject.GetRadius(), image);
+    m_findellipse.FindEllipse(m_findobject.GetCenter(),m_findobject.GetRadius(), image);
 
     std::cout << "R = " << m_findobject.GetRadius() << "x y = "<< m_findobject.GetCenter().x << " " << m_findobject.GetCenter().y
               << std::endl;
@@ -81,13 +81,24 @@ void SpherePositionAlgo::setFormat( int width, int height )
     sixData.m_b2 = m_findellipse.m_sixdata.m_b2;
 
 
+    sixData.m_angl1 = m_findellipse.m_sixdata.m_angl1;
+    sixData.m_angl2 = m_findellipse.m_sixdata.m_angl2;
+
+
+    if (m_findobject.GetRadius() == 0)
+    {
+        sixData.m_angl1 =0;
+        sixData.m_angl2 = 0;
+    }
+
+
 
     SpherePositionAlgoResult result;
 
 
 
     result.Analysis();
-     std::cout << "b1 " << sixData.m_b1 << " b2 "<< sixData.m_b2 << std::endl;
+     std::cout << "angl1 " << sixData.m_angl1 << " angl2 "<< sixData.m_angl2 << std::endl;
     result.data = sixData;
     result.success  = true;
     callback->getResult(result);
