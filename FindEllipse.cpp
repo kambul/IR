@@ -49,24 +49,24 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
     //ищем по цвету маркер(крест)
 
 
-    int Hmin = 96;
-    int Hmax = 114;
+    int Hmin = 0;
+    int Hmax = 20;
 
-    int Smin = 141;
+    int Smin = 10;
     int Smax = 255;
 
-    int Vmin = 4;
-    int Vmax = 90;
+    int Vmin = 0;
+    int Vmax = 250;
     //вторая полоска
 
-    int Hmin_2 = 22;
-    int Hmax_2 = 43;
+    int Hmin_2 = 94;
+    int Hmax_2 = 113;
 
-    int Smin_2 = 34;
+    int Smin_2 = 69;
     int Smax_2 = 255;
 
     int Vmin_2 = 4;
-    int Vmax_2 = 200;
+    int Vmax_2 = 255;
 
 //поиск креста по цвету
     CFindColor findcolor;
@@ -75,11 +75,14 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
 
     findcolor.FindColorRangeHSV( Hmin,  Hmax,  Smin,  Smax,  Vmin,  Vmax);
 
-    cvCanny( findcolor.GetImage(), temp_1, 0, 10, 5 );
+   // cvCanny( findcolor.GetImage(), temp_1, 0, 10, 5 );
+    cvCopy(findcolor.GetImage(), temp_1);
+
 
     findcolor.FindColorRangeHSV( Hmin_2,  Hmax_2,  Smin_2,  Smax_2,  Vmin_2,  Vmax_2);
 
-     cvCanny( findcolor.GetImage(), temp_2, 0, 10, 5 );
+     //cvCanny( findcolor.GetImage(), temp_2, 0, 10, 5 );
+    cvCopy(findcolor.GetImage(), temp_2);
 //
 
     int a = 0,b = 0;
@@ -140,6 +143,7 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
 
 
 
+
         IplImage* bin_1 = 0;
         IplImage* bin_2 = 0;
 
@@ -152,11 +156,13 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
         bin2_1 = cvCreateImage(cvGetSize(bin_1), IPL_DEPTH_8U, 1);
         bin2_2 = cvCreateImage(cvGetSize(bin_1), IPL_DEPTH_8U, 1);
 
+
         cvZero(bin2_1);
         cvZero(bin2_2);
 
         cvCopy(temp_1,bin_1);
         cvCopy(temp_2,bin_2);
+
 
 
        // cvShowImage("bin",bin);
@@ -173,11 +179,36 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
 
         cvZero(phase_1);
         cvZero(phase_2);
+        int rad = global_p[2]*m_size;
+
+         int size_rand = 1;
+
+            int del_global = global_p[2] / 10 ;
+            size_rand = (del_global - 6)*3;
 
 
 
 
-        double sigma = 2;
+
+        for(int y = 0; y < bin_1->height; y ++)
+        {
+            uchar* ptrG_1 = (uchar*) (bin_1->imageData + y * bin_1->widthStep);//первая метка
+            uchar* ptrG_2 = (uchar*) (bin_2->imageData + y * bin_2->widthStep);//вторая метка
+            for(int x=0; x < bin_1->width; x++)
+            {
+                if ( (x-rad)*(x-rad) + (y-rad)*(y-rad) - rad*rad > 1)
+                {
+                   ptrG_1[x] = 0;
+                   ptrG_2[x] = 0;
+                }
+            }
+        }
+
+
+
+
+
+        double sigma = 1;
         ///
         ////// \brief cont
         unsigned int cont = 0;
@@ -193,7 +224,7 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
 
         for(int y = 0; y < bin_1->height; y ++)
         {
-            if (cont>300) break;
+            if (cont>200) break;
             uchar* ptrG_1 = (uchar*) (bin_1->imageData + y * bin_1->widthStep);//первая метка
             uchar* ptrG_2 = (uchar*) (bin_2->imageData + y * bin_2->widthStep);//вторая метка
 
@@ -202,7 +233,7 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
 
             for(int x=0; x < bin_1->width; x++)
             {
-                if ((ptrG_1[x]>0)&&((rand() % 8)==1)) //1 из 8 // это пиксель контура?
+                if ((ptrG_1[x]>0)&&((rand() % size_rand)==1)) //1 из 8 // это пиксель контура?
                 {
                     ptr2_1[x] = 0xFFFFFFFF;
                     cont++;
@@ -252,7 +283,20 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
 
 
                                 {
-                                    ptrP_1[b] ++;
+                                    if(b-1 >0)
+                                    {
+                                    ptrP_1[abs(b-1)] = ptrP_1[abs(b-1)] + 1;
+                                    }
+                                    ptrP_1[b] = ptrP_1[b] + 3;
+
+                                    if(b+1 <= phase_1->width/2)
+                                    {
+                                    ptrP_1[b+1] = ptrP_1[b+1] + 1;
+                                    }
+                                    else
+                                    {
+                                    }
+
                                     cont_fi ++;
                                     Zero_t = abs(t-8);//8 выбранно пока из отклонения 2шаgа
 
@@ -271,7 +315,7 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
                 //break;
                 ////////////////
 
-                if ((ptrG_2[x]>0)&&((rand() % 8)==1)) //1 из 8 // это пиксель контура?
+                if ((ptrG_2[x]>0)&&((rand() % size_rand)==1)) //1 из 4 // это пиксель контура?
                 {
                     ptr2_2[x] = 0xFFFFFFFF;
                     cont++;
@@ -321,7 +365,20 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
 
 
                                 {
-                                    ptrP_2[b] ++;
+                                    if(b-1 >0)
+                                    {
+                                    ptrP_2[abs(b-1)] = ptrP_2[abs(b-1)] + 1;
+                                    }
+                                    ptrP_2[b] = ptrP_2[b] + 3;
+
+                                    if(b+1 <= phase_2->width/2)
+                                    {
+                                    ptrP_2[b+1] = ptrP_2[b+1] + 1;
+                                    }
+                                    else
+                                    {
+                                    }
+
                                     cont_fi ++;
                                     Zero_t = abs(t-8);//8 выбранно пока из отклонения 2шаgа
 
@@ -402,13 +459,16 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
         MaxPhaseValue_1 =1;
 
 
-        for(int a=1; a<phase_1->height; a++)
+        for(int a=0; a<phase_1->height; a++)
         {
 
-            int tangl = a+90;
+            for (int delta = -3; delta < 3; delta ++)
+            {
+            int tangl = a+90+delta;
             if (tangl>360) tangl=tangl-360;
-            std::cout <<" t1 ="<< a<<" " << tempr_1[a] << std::endl;
-            std::cout <<" t2 ="<<a<< " " << tempr_2[a]<< std::endl;
+            if (tangl<0) tangl=360 + tangl;
+            //std::cout <<" t1 ="<< a<<" " << tempr_1[a] << "  ";
+            //std::cout <<" t2 ="<<a<< " " << tempr_2[a]<< std::endl;
 
             long int ttt_1 = tempr_1[a] * tempr_2[tangl];
             long int ttt_2 = tempr_2[a] * tempr_1[tangl];
@@ -435,9 +495,11 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
                // max_a2 = a;
                 }
             }
+            }
             //pout <<a<<" "<< ttt << std::endl;
 
         }
+
 
         max_b =0;
 
@@ -450,47 +512,48 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
 
         unsigned int MaxPhaseValue =1;
         unsigned int MaxPhaseValue1 =1;
+
         for(int a=1; a<phase_1->height; a++)
 
         { //перебираем все возможные углы наклона
             short* ptrP_1 = (short*) (phase_1->imageData + a * phase_1->widthStep);
             short* ptrP_2 = (short*) (phase_2->imageData + a * phase_2->widthStep);
 
-            for(int b=1; b<phase_1->width; b++)/////исправить 5ку, н число от радиуса
+            for(int b=1; b<phase_1->width/2; b++)/////исправить 5ку, н число от радиуса
             { // перебираем все возможные расстояния от начала координат
-                if(abs (a - max_a)<2)
+                if(abs (a - max_a)<=2)
                 {
 
-                    if (ptrP_1[b]> MaxPhaseValue)
+                    if (ptrP_1[b] > MaxPhaseValue)
                     {
-                        max_b=b;
+                        max_b = b;
                         MaxPhaseValue = ptrP_1[b];
 
                     }
 
-                    if (ptrP_2[b]> MaxPhaseValue)
+                    if (ptrP_2[b] > MaxPhaseValue1)
                     {
                         max_b2=b;
-                        MaxPhaseValue = ptrP_2[b];
+                        MaxPhaseValue1 = ptrP_2[b];
 
 
                     }
 
                 }
 
-                if(abs(a - tangl)<2)
+                if(abs(a - tangl)<=2)
                 {
 
-                    if (ptrP_1[ b]> MaxPhaseValue1)
+                    if (ptrP_1[ b] > MaxPhaseValue)
                     {
                         max_b=b;
-                        MaxPhaseValue1 = ptrP_1[b];
+                        MaxPhaseValue = ptrP_1[b];
 
                     }
-                    if (ptrP_2[ b]> MaxPhaseValue1)
+                    if (ptrP_2[ b] > MaxPhaseValue1)
                     {
-                        max_b2=b;
-                        MaxPhaseValue1 = ptrP_1[b];
+                        max_b2 = b;
+                        MaxPhaseValue1 = ptrP_2[b];
 
                     }
 
@@ -504,7 +567,7 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
         cvSaveImage("phase1.jpg",phase_1);
         cvSaveImage("phase2.jpg",phase_2);
 
-        std ::cout << " maxval =" << maxval  << "b=" << max_b << "a" << global_p[2] << std::endl;
+        std ::cout << " maxph =" << MaxPhaseValue << "  " << MaxPhaseValue1 << "b=" << max_b << "a" << global_p[2] << "max b1 " << max_b << "max b2 " << max_b2 << "rand =" << size_rand<< std::endl;
 
         //Theta =max_a;
        // R=max_b;
@@ -547,6 +610,15 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
             m_sixdata.m_b2 = max_b2;
             m_sixdata.m_angl1 = t_n[1];
             m_sixdata.m_angl2 = t_n[2];
+            if (maxArg <20)
+            {
+            m_sixdata.m_a1 = 0;
+            m_sixdata.m_a2 = 0;
+            m_sixdata.m_b1 = 0;
+            m_sixdata.m_b2 = 0;
+            m_sixdata.m_angl1 = 0;
+            m_sixdata.m_angl2 = 0;
+            }
 
 
 

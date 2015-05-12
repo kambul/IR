@@ -130,7 +130,7 @@ bool CFindObject::FindObject(IplImage *image)
 
                             for(k=0, seq = contours; seq!=0; seq = seq->h_next, k++)
                             {
-                                if ((m_radis[k] > image->height/8) && ( m_radis[k] > Max_contr[2])&&( m_radis[k]< image->height))
+                                if ((m_radis[k] > image->height/10) && ( m_radis[k] > Max_contr[2])&&( m_radis[k]< image->height))
                                 {
 
                                     if ((contr_sqr[k]/m_radis[k]/m_radis[k] / 3.14 >sqr_max)&&(contr_sqr[k]/m_radis[k]/m_radis[k] / 3.14 > 0.69 ))

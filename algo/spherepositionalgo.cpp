@@ -10,6 +10,7 @@
 
 
 
+
 CvCapture* m_cam;
 
 
@@ -47,6 +48,7 @@ void SpherePositionAlgo::setFormat( int width, int height )
 
    IplImage* image = 0;
    image = cvCreateImage( cvGetSize(cvQueryFrame( m_cam )), IPL_DEPTH_8U, 3 );
+
    printf( "[i] channels:  %d\n",        image->nChannels );
    printf( "[i] pixel depth: %d bits\n",   image->depth );
    printf( "[i] width:       %d pixels\n", image->width );
@@ -58,7 +60,7 @@ void SpherePositionAlgo::setFormat( int width, int height )
     {
 
     image = cvQueryFrame( m_cam );
-
+    cvFlip(image, image, 1);
 
     m_findcolor.SetImage(image);
 
@@ -97,9 +99,13 @@ void SpherePositionAlgo::setFormat( int width, int height )
 
 
 
+
+    result.data = sixData;
     result.Analysis();
      std::cout << "angl1 " << sixData.m_angl1 << " angl2 "<< sixData.m_angl2 << std::endl;
-    result.data = sixData;
+     std::cout << "b1 " << sixData.m_b1 << " b2 "<< sixData.m_b2 << std::endl;
+
+
     result.success  = true;
     callback->getResult(result);
 

@@ -4,8 +4,8 @@ string down = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\
 
 string up = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"10\",\"timestamp\" : \"0\",\"correlationID\" : \"\",\"bodyType\" : \"map\"}, \"properties\": [],\"body\":{\"vs\":[10, 10]}}";
 
-string r = "{\"header\":{\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"15\",\"timestamp\" : \"1428419652361\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"vs\":[-15,15]}}";
-string l = "{\"header\":{\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"15\",\"timestamp\" : \"1428419652361\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"vs\":[15,-15]}}";
+string foward = "{\"header\":{\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"15\",\"timestamp\" : \"1428419652361\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"vs\":[-15,15]}}";
+string back = "{\"header\":{\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"15\",\"timestamp\" : \"1428419652361\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"vs\":[15,-15]}}";
 
 //string r = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"10\",\"timestamp\" : \"0\",\"correlationID\" : \"\",\"bodyType\" : \"map\"}, \"properties\": [],\"body\":{\"vs\":[10, -10]}}";
 //string l = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"10\",\"timestamp\" : \"0\",\"correlationID\" : \"\",\"bodyType\" : \"map\"}, \"properties\": [],\"body\":{\"vs\":[10, -10]}}";
@@ -41,7 +41,7 @@ void BridgeTransmitter::stop()
 
 void BridgeTransmitter::getResult( SpherePositionAlgoResult result )
 {
-
+/*
      if (((result.data.y ) < 120) && (result.data.y !=0))
      {
      c.send_comm(r);
@@ -50,14 +50,26 @@ void BridgeTransmitter::getResult( SpherePositionAlgoResult result )
      if (((result.data.y ) > 360) && (result.data.y !=0))
      {
      c.send_comm(l);
+
+     }
+ */
+     if (result.data.m_a1  > 120)
+     {
+     c.send_comm(foward);
      }
 
-     if (((result.data.x ) < 200) && (result.data.x !=0))
+     if ((result.data.m_a1  <85) && (result.data.m_a1  > 10) )
+     {
+     c.send_comm(back);
+     }
+
+
+     if (((result.data.x ) < 100) && (result.data.x !=0))
      {
      c.send_comm(up);
      }
 
-     if (((result.data.x ) > 440) && (result.data.x !=0))
+     if (((result.data.x ) > 500) && (result.data.x !=0))
      {
      c.send_comm(down);
      }
