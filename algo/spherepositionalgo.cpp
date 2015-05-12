@@ -70,8 +70,7 @@ void SpherePositionAlgo::setFormat( int width, int height )
 
     m_findellipse.FindEllipse(m_findobject.GetCenter(),m_findobject.GetRadius(), image);
 
-    std::cout << "R = " << m_findobject.GetRadius() << "x y = "<< m_findobject.GetCenter().x << " " << m_findobject.GetCenter().y
-              << std::endl;
+
 
    // cvShowImage("frame",image);
     SixData sixData;
@@ -87,10 +86,13 @@ void SpherePositionAlgo::setFormat( int width, int height )
     sixData.m_angl2 = m_findellipse.m_sixdata.m_angl2;
 
 
-    if (m_findobject.GetRadius() == 0)
+    if (sixData.m_a1 == 0)
     {
+        sixData.m_b1 =0;
+        sixData.m_b2 = 0;
         sixData.m_angl1 =0;
         sixData.m_angl2 = 0;
+
     }
 
 
@@ -103,8 +105,9 @@ void SpherePositionAlgo::setFormat( int width, int height )
     result.data = sixData;
     result.Analysis();
      std::cout << "angl1 " << sixData.m_angl1 << " angl2 "<< sixData.m_angl2 << std::endl;
-     std::cout << "b1 " << sixData.m_b1 << " b2 "<< sixData.m_b2 << std::endl;
-
+     std::cout << "b1 " << result.data.m_b1 << " b2 "<< result.data.m_b2 << std::endl;
+     std::cout << "R = " << result.data.m_a1 << "x y = "<< m_findobject.GetCenter().x << " " << m_findobject.GetCenter().y
+               << std::endl;
 
     result.success  = true;
     callback->getResult(result);

@@ -208,7 +208,7 @@ void CFindEllipse::FindEllipse(CvPoint position, int radius, IplImage *image)
 
 
 
-        double sigma = 1;
+        double sigma = 2;
         ///
         ////// \brief cont
         unsigned int cont = 0;

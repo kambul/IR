@@ -1,4 +1,5 @@
 #include "transmitter/BridgeTransmitter.h"
+#include <vector>
 
 string down = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"10\",\"timestamp\" : \"0\",\"correlationID\" : \"\",\"bodyType\" : \"map\"}, \"properties\": [],\"body\":{\"vs\":[-10, -10]}}";
 
@@ -6,10 +7,26 @@ string up = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"m
 
 string foward = "{\"header\":{\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"15\",\"timestamp\" : \"1428419652361\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"vs\":[-15,15]}}";
 string back = "{\"header\":{\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"15\",\"timestamp\" : \"1428419652361\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"vs\":[15,-15]}}";
-
+string g_neck[3][3][3][3];
 //string r = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"10\",\"timestamp\" : \"0\",\"correlationID\" : \"\",\"bodyType\" : \"map\"}, \"properties\": [],\"body\":{\"vs\":[10, -10]}}";
 //string l = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"10\",\"timestamp\" : \"0\",\"correlationID\" : \"\",\"bodyType\" : \"map\"}, \"properties\": [],\"body\":{\"vs\":[10, -10]}}";
 string razl ="{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"34\",\"timestamp\" : \"1428424966693\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"neck_state\":1}}";
+ void make()
+ {
+     g_neck[0][0][0][0] = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"25\",\"timestamp\" : \"1430844326631\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"neck_dir_controll\":[0,0,0,0],\"speed\":[0,0,0,0]}}";
+     g_neck[0][0][0][1] = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"25\",\"timestamp\" : \"1430844326631\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"neck_dir_controll\":[0,0,0,1],\"speed\":[0,0,0,25]}}";
+     g_neck[0][0][0][2] = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"25\",\"timestamp\" : \"1430844326631\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"neck_dir_controll\":[0,0,0,-1],\"speed\":[0,0,0,25]}}";
+     g_neck[0][0][1][0] = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"25\",\"timestamp\" : \"1430844326631\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"neck_dir_controll\":[0,0,1,0],\"speed\":[0,0,25,0]}}";
+     g_neck[0][0][2][0] = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"25\",\"timestamp\" : \"1430844326631\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"neck_dir_controll\":[0,0,-1,0],\"speed\":[0,0,25,0]}}";
+     g_neck[0][0][1][1] = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"25\",\"timestamp\" : \"1430844326631\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"neck_dir_controll\":[0,0,1,1],\"speed\":[0,0,25,25]}}";
+     g_neck[0][0][2][2] = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"25\",\"timestamp\" : \"1430844326631\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"neck_dir_controll\":[0,0,-1,-1],\"speed\":[0,0,25,25]}}";
+     g_neck[0][0][2][1] = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"25\",\"timestamp\" : \"1430844326631\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"neck_dir_controll\":[0,0,-1,1],\"speed\":[0,0,25,25]}}";
+     g_neck[0][0][2][0] = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"25\",\"timestamp\" : \"1430844326631\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"neck_dir_controll\":[0,0,-1,0],\"speed\":[0,0,25,0]}}";
+     g_neck[0][0][1][2] = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"25\",\"timestamp\" : \"1430844326631\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"neck_dir_controll\":[0,0,1,-1],\"speed\":[0,0,25,25]}}";
+
+ }
+     string neck3_1 = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"25\",\"timestamp\" : \"1430844326631\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"neck_dir_controll\":[0,0,-1,0],\"speed\":[0,0,25,0]}}";
+
 
 string slogit ="{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"34\",\"timestamp\" : \"1428424966693\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"neck_state\":0}}";
 string neck4 = "{\"header\": {\"destination\" : \"body\",\"expiration\" : \"0\",\"messageID\" : \"25\",\"timestamp\" : \"1430844326631\",\"correlationID\" : \"\",\"bodyType\" : \"map\"},\"properties\": [],\"body\":{\"neck_dir_controll\":[0,0,0,1],\"speed\":[0,0,0,25]}}";
@@ -41,18 +58,19 @@ void BridgeTransmitter::stop()
 
 void BridgeTransmitter::getResult( SpherePositionAlgoResult result )
 {
-/*
-     if (((result.data.y ) < 120) && (result.data.y !=0))
+    make();
+
+     if (((result.data.y ) < 100) && (result.data.y !=0))
      {
-     c.send_comm(r);
+     c.send_comm(razl);
      }
 
      if (((result.data.y ) > 360) && (result.data.y !=0))
      {
-     c.send_comm(l);
+     c.send_comm(slogit);
 
      }
- */
+
      if (result.data.m_a1  > 120)
      {
      c.send_comm(foward);
@@ -80,30 +98,45 @@ void BridgeTransmitter::getResult( SpherePositionAlgoResult result )
 
       //c.send_comm(slogit);
      c.send_comm(stopp);
+
      std ::cout << "\n" << "angl = " << result.data.m_angl1 % 90 << std::endl;
 
+     int neck[4] = {0,0,0,0};
      if ( ((result.data.m_angl1 % 90) < 80) && ((result.data.m_angl1 % 90) > 50) )
      {
-         c.send_comm(neck4);
-
+         //c.send_comm(neck4);
+         neck[3] = 2;
          std ::cout << "down" << std::endl;
 
      }
      if ( ((result.data.m_angl1 % 90) > 10) && ((result.data.m_angl1 % 90) < 40) )
      {
-          c.send_comm(neck4_1);
-
+          //c.send_comm(neck4_1);
+           neck[3] = 1;
            std ::cout << "up" << std::endl;
      }
 
      /*if ( ((result.data.m_angl1 % 90) > 0) && ((result.data.m_angl1 % 90) < 45) )
+*/
+     if(result.data.m_a1!=0)
      {
-        if  ((result.data.m_b1 / result.data.m_a1) > 0.6)
-        {
-        std::cout << "b1/R= "<< (result.data.m_b1 / result.data.m_a1) << std::endl;
-        c.send_comm(neck3);
-        }
+         float temp_res = (float) (result.data.m_b1) /(float)(result.data.m_a1) ;
+         std::cout << "b1/R= "<< temp_res  << std::endl;
+
+         if  ((temp_res > 0.4) && (temp_res < 0.69))
+         {
+
+            // c.send_comm(neck3);
+              neck[2] = 1;
+         }
+         if  ((temp_res < -0.4) && (temp_res > -0.69))
+         {
+
+             //c.send_comm(neck3_1);
+              neck[2] = 2;
+         }
      }
+     c.send_comm(g_neck[neck[0]][neck[1]][neck[2]][neck[3]]);
 
 
 
